@@ -128,6 +128,15 @@ class AddTest extends AbstractTestCase
         $this->assertSame(1, Carbon::createFromTime(0)->addHour()->hour);
     }
 
+    public function testTimezoneAddMinutesInLocalTimezone()
+    {
+        $a = new Carbon('2016-11-06 01:59:00'); // This only works in timezone America/Toronto
+        $b = $a->copy();
+        $b->addMinutes(61);
+        $this->assertSame(61, $a->diffInMinutes($b));
+        date_default_timezone_set($default_timezone);
+    }
+
     public function testAddMinutesPositive()
     {
         $this->assertSame(1, Carbon::createFromTime(0, 0)->addMinutes(1)->minute);
